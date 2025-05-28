@@ -7,6 +7,8 @@ import { UsersModule } from './users/users.module';
 import { SettingsModule } from './settings/settings.module';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
+import { User } from './users/user.entity';
+import { Task } from './tasks/task.entity';
 
 @Module({
   imports: [
@@ -15,9 +17,9 @@ import { AuthModule } from './auth/auth.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '',
+      password: 'suser',
       database: 'clase9',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [User, Task],
       synchronize: true,
       logging: true,
     }),
