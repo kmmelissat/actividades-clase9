@@ -1,20 +1,16 @@
-import { Task } from "src/tasks/task.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-export class UserEntity {}
+@Entity('users')
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-@Entity()
-export class User{
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ type: 'varchar', length: 100 })
+  name: string;
 
-    @Column()
-    nombre: string;
+  @Column({ type: 'varchar', length: 255, unique: true })
+  email: string;
 
-    @Column()
-    email: string;
-
-    @OneToMany(() => Task, (task) => task.user)
-    tareas: Task[];
-
+  @Column({ type: 'varchar', length: 255 })
+  password: string;
 }

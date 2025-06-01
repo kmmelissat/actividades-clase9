@@ -1,42 +1,51 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './user.entity';
 import { Repository } from 'typeorm';
+import { User } from './user.entity';
+import { CreateUserDto } from './dto';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
-        private usersRepository: Repository<User>,
-    ) {}
+        private readonly userRepository: Repository<User>,
+    ) { }
 
-    async createUser(nombre:string, email:string): Promise<User>{
-        const nuevo = this.usersRepository.create({nombre, email});
-        return this.usersRepository.save(nuevo);
+    create(createUserDto: CreateUserDto): Promise<User>{
+        const user = this.userRepository.create(createUserDto);
+        return this.userRepository.save(user);
     }
-    async findAll(): Promise<User[]>{
-        return this.usersRepository.find();
+    findAll(): Promise<User[]>{
+        return this.userRepository.find();
+    }
+    async findByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    return user;
+    }
+    
+    async deleteUser(id: number) {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+        throw new NotFoundException('Usuario no encontrado');
+    }
+    return this.userRepository.remove(user);
     }
 
-    async findById(id: number): Promise<User>{
-        const user = await this.usersRepository.findOne({where: { id }});
-        if(!user){
-            throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
-        }
-        return user;
+
+    async deleteUserIfOwner(idToDelete: number, requesterId: number): Promise<void> {
+        if (idToDelete !== requesterId) {
+        throw new ForbiddenException('No puedes eliminar a otro usuario');
     }
 
-    async updateUser(id: number, data: Partial<User>): Promise<User>{
-        const user = await this.findById(id);
-        Object.assign(user, data);
-        return this.usersRepository.save(user);
+    const user = await this.userRepository.findOne({ where: { id: idToDelete } });
+    if (!user) {
+        throw new NotFoundException('Usuario no encontrado');
     }
 
-    async deleteUser(id: number): Promise<void>{
-        const result = await this.usersRepository.delete(id);
-        if(result.affected === 0){
-            throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
-        }
-    }
+    await this.userRepository.delete(idToDelete);
+}
+
+
 
 }
