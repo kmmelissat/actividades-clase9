@@ -9,6 +9,7 @@ import { JwtStrategy } from './jwt.strategy';
 
 import { UsersModule } from '../users/users.module';
 import { User } from '../users/user.entity';
+import { TasksModule } from 'src/tasks/tasks.module';
 import { CommentsModule } from 'src/comments/comments.module';
 import { ProductsModule } from 'src/products/products.module';
 
@@ -20,7 +21,10 @@ import { ProductsModule } from 'src/products/products.module';
     // Make UsersModule available to AuthService
     UsersModule,
 
-    // Additional modules
+    // Task-related functionality
+    TasksModule,
+
+    // Other feature modules
     CommentsModule,
     ProductsModule,
 
@@ -29,7 +33,7 @@ import { ProductsModule } from 'src/products/products.module';
 
     // Configure JwtModule (secret + expiration)
     JwtModule.register({
-      secret: 'your-secret-key',
+      secret: 'clave-secreta',
       signOptions: { expiresIn: '1h' },
     }),
   ],
