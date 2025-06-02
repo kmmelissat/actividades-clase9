@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+
 import { User } from '../users/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -68,7 +69,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Compare passwords
+    // Compare stored hash with provided password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');
@@ -89,4 +90,3 @@ export class AuthService {
     };
   }
 }
-

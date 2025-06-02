@@ -9,6 +9,8 @@ import { JwtStrategy } from './jwt.strategy';
 
 import { UsersModule } from '../users/users.module';
 import { User } from '../users/user.entity';
+import { CommentsModule } from 'src/comments/comments.module';
+import { ProductsModule } from 'src/products/products.module';
 
 @Module({
   imports: [
@@ -18,22 +20,21 @@ import { User } from '../users/user.entity';
     // Make UsersModule available to AuthService
     UsersModule,
 
+    // Additional modules
+    CommentsModule,
+    ProductsModule,
+
     // Configure Passport to use JWT strategy by default
     PassportModule.register({ defaultStrategy: 'jwt' }),
 
-    // Configure JwtModule (choose your secret and options)
+    // Configure JwtModule (secret + expiration)
     JwtModule.register({
       secret: 'your-secret-key',
       signOptions: { expiresIn: '1h' },
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy,
-  ],
-  exports: [
-    AuthService,
-  ],
+  providers: [AuthService, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}
