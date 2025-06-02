@@ -26,7 +26,6 @@ export class AuthService {
     const existingUser = await this.userRepository.findOne({
       where: { email },
     });
-
     if (existingUser) {
       throw new ConflictException('User with this email already exists');
     }
@@ -41,7 +40,6 @@ export class AuthService {
       email,
       password: hashedPassword,
     });
-
     const savedUser = await this.userRepository.save(user);
 
     // Generate JWT token
@@ -62,23 +60,21 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
 
-    // Buscar al usuario por email
+    // Find user by email
     const user = await this.userRepository.findOne({
       where: { email },
     });
-
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Comparar la contraseña ingresada con la almacenada
+    // Compare passwords
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Si es correcta, generar y devolver un token JWT con sub = id y email
+    // Generate and return JWT
     const payload = { sub: user.id, email: user.email };
     const token = this.jwtService.sign(payload);
 
@@ -93,3 +89,4 @@ export class AuthService {
     };
   }
 }
+
