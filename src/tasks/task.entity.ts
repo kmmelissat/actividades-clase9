@@ -1,7 +1,7 @@
-import { User } from "src/users/user.entity";
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+import {User} from "../users/user.entity";
 
-@Entity()
+@Entity('tasks')
 export class Task {
     @PrimaryGeneratedColumn()
     id: number;
@@ -9,12 +9,9 @@ export class Task {
     @Column()
     titulo: string;
 
-    @Column({ default: false })
+    @Column({default: false})
     completada: boolean;
 
-   // @ManyToOne(() => User, (user) => user.tareas, {eager: true })
-   // user: User;
-
-    @Column()
-    userId: number;
+    @ManyToOne(() => User, (user) => user.tareas, {eager: true})
+    user: User;
 }
