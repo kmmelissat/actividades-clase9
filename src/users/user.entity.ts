@@ -1,20 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Task } from "../tasks/task.entity";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Task } from '../tasks/task.entity';
 
-@Entity()
+@Entity('users')
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    nombre: string;
+  @Column({ type: 'varchar', length: 100 })
+  name: string;
 
-    @Column()
-    email: string;
+  @Column({ type: 'varchar', length: 255, unique: true })
+  email: string;
 
-    @Column({ nullable: true })
-    password: string;
+  @Column({ type: 'varchar', length: 255 })
+  password: string;
 
-    @OneToMany(() => Task, (task) => task.user)
-    tareas: Task[];
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Task[];
 }
