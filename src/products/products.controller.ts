@@ -6,31 +6,66 @@ import {
   Param,
   ParseIntPipe,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiParam,
+} from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-products.dto';
 import { Product } from './entities/products.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@ApiTags('Support - Products')
+@ApiTags('Ejercicio 5 - Productos')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createProductDto: CreateProductDto): Promise<Product> {
-    return this.productsService.create(createProductDto);
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Crear un nuevo producto' })
+  @ApiResponse({
+    status: 201,
+    description: 'Producto creado exitosamente',
+    type: Product,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'No autorizado - Token JWT inválido o faltante',
+  })
+  async create(
+    @Body() product: Product,
+    @Request() req: any,
+  ): Promise<Product> {
+    return this.productsService.create(product, req.user.sub);
   }
 
   @Get()
-  findAll(): Promise<Product[]> {
+  @ApiOperation({ summary: 'Obtener todos los productos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Retorna todos los productos',
+    type: [Product],
+  })
+  async findAll(): Promise<Product[]> {
     return this.productsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
+  @ApiOperation({ summary: 'Obtener un producto por ID' })
+  @ApiParam({ name: 'id', description: 'ID del producto' })
+  @ApiResponse({
+    status: 200,
+    description: 'Retorna el producto',
+    type: Product,
+  })
+  @ApiResponse({ status: 404, description: 'Producto no encontrado' })
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
     return this.productsService.findOne(id);
   }
 }

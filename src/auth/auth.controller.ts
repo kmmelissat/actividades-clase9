@@ -4,22 +4,79 @@ import {
   Body,
   ValidationPipe,
   UnauthorizedException,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('Ejercicio 4 - Autenticación')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  async register(@Body(ValidationPipe) registerDto: RegisterDto) {
+  @ApiOperation({ summary: 'Registrar un nuevo usuario' })
+  @ApiResponse({
+    status: 201,
+    description: 'Usuario registrado exitosamente',
+    schema: {
+      type: 'object',
+      properties: {
+        user: {
+          type: 'object',
+          properties: {
+            id: { type: 'number', example: 1 },
+            email: { type: 'string', example: 'usuario@ejemplo.com' },
+            name: { type: 'string', example: 'Usuario Ejemplo' },
+          },
+        },
+        access_token: {
+          type: 'string',
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Conflicto - El correo electrónico ya está registrado',
+  })
+  async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
 
   @Post('login')
-  async login(@Body(ValidationPipe) loginDto: LoginDto) {
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Iniciar sesión' })
+  @ApiResponse({
+    status: 200,
+    description: 'Inicio de sesión exitoso',
+    schema: {
+      type: 'object',
+      properties: {
+        user: {
+          type: 'object',
+          properties: {
+            id: { type: 'number', example: 1 },
+            email: { type: 'string', example: 'usuario@ejemplo.com' },
+            name: { type: 'string', example: 'Usuario Ejemplo' },
+          },
+        },
+        access_token: {
+          type: 'string',
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'No autorizado - Credenciales inválidas',
+  })
+  async login(@Body() loginDto: LoginDto) {
     // First validate credentials
     const user = await this.authService.validateUser(
       loginDto.email,
