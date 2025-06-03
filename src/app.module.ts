@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 
 import { User } from './users/user.entity';
 import { Task } from './tasks/task.entity';
+import { Product } from './products/entities/products.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { Task } from './tasks/task.entity';
       username: 'postgres',
       password: '',
       database: 'clase9',
-      entities: [User, Task],
+      entities: [User, Task, Product],
       synchronize: true,
       logging: true,
     }),
