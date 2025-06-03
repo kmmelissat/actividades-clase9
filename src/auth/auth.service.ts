@@ -20,6 +20,18 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  async validateUser(email: string, password: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      return user;
+    }
+
+    return null;
+  }
+
   async register(registerDto: RegisterDto) {
     const { name, email, password } = registerDto;
 
@@ -90,4 +102,3 @@ export class AuthService {
     };
   }
 }
-
