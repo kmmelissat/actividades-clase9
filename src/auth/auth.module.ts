@@ -10,7 +10,6 @@ import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from '../users/users.module';
 import { User } from '../users/user.entity';
 import { TasksModule } from 'src/tasks/tasks.module';
-import { CommentsModule } from 'src/comments/comments.module';
 import { ProductsModule } from 'src/products/products.module';
 
 @Module({
@@ -25,7 +24,6 @@ import { ProductsModule } from 'src/products/products.module';
     TasksModule,
 
     // Other feature modules
-    CommentsModule,
     ProductsModule,
 
     // Configure Passport to use JWT strategy by default

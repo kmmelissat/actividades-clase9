@@ -9,7 +9,6 @@ import { UsersModule } from './users/users.module';
 import { SettingsModule } from './settings/settings.module';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
-import { CommentsModule } from './comments/comments.module';
 
 import { User } from './users/user.entity';
 import { Task } from './tasks/task.entity';
@@ -32,7 +31,6 @@ import { Task } from './tasks/task.entity';
     SettingsModule,
     ProductsModule,
     AuthModule,
-    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

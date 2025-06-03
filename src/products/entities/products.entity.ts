@@ -1,5 +1,4 @@
-import { CommentEntity } from 'src/comments/entities/comment.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Product {
@@ -14,7 +13,4 @@ export class Product {
 
   @Column('decimal', { precision: 10, scale: 2 })
   price: number;
-
-  @OneToMany(() => CommentEntity, (comment) => comment.product)
-  comments: CommentEntity[];
 }
