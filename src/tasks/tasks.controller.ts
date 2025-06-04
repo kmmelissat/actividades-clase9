@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiBearerAuth,
   ApiParam,
+  ApiBody,
 } from '@nestjs/swagger';
 
 @ApiTags('Ejercicio 2 - Tareas')
@@ -29,10 +30,35 @@ export class TasksController {
 
   @Post()
   @ApiOperation({ summary: 'Crear una nueva tarea' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        titulo: { type: 'string', example: 'Comprar leche' },
+      },
+    },
+    examples: {
+      ejemplo: {
+        summary: 'Ejemplo de creación de tarea',
+        value: { titulo: 'Comprar leche' },
+      },
+    },
+  })
   @ApiResponse({
     status: 201,
     description: 'Tarea creada exitosamente',
-    type: Task,
+    schema: {
+      example: {
+        id: 1,
+        titulo: 'Comprar leche',
+        completada: false,
+        user: {
+          id: 1,
+          name: 'Juan Pérez',
+          email: 'juan@ejemplo.com',
+        },
+      },
+    },
   })
   @ApiResponse({
     status: 401,
@@ -47,7 +73,30 @@ export class TasksController {
   @ApiResponse({
     status: 200,
     description: 'Retorna todas las tareas',
-    type: [Task],
+    schema: {
+      example: [
+        {
+          id: 1,
+          titulo: 'Comprar leche',
+          completada: false,
+          user: {
+            id: 1,
+            name: 'Juan Pérez',
+            email: 'juan@ejemplo.com',
+          },
+        },
+        {
+          id: 2,
+          titulo: 'Estudiar para el examen',
+          completada: true,
+          user: {
+            id: 1,
+            name: 'Juan Pérez',
+            email: 'juan@ejemplo.com',
+          },
+        },
+      ],
+    },
   })
   @ApiResponse({
     status: 401,
@@ -63,7 +112,18 @@ export class TasksController {
   @ApiResponse({
     status: 200,
     description: 'Retorna la tarea',
-    type: Task,
+    schema: {
+      example: {
+        id: 1,
+        titulo: 'Comprar leche',
+        completada: false,
+        user: {
+          id: 1,
+          name: 'Juan Pérez',
+          email: 'juan@ejemplo.com',
+        },
+      },
+    },
   })
   @ApiResponse({
     status: 401,
@@ -77,10 +137,36 @@ export class TasksController {
   @Put(':id')
   @ApiOperation({ summary: 'Actualizar una tarea' })
   @ApiParam({ name: 'id', description: 'ID de la tarea' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        titulo: { type: 'string', example: 'Comprar pan' },
+        completada: { type: 'boolean', example: true },
+      },
+    },
+    examples: {
+      ejemplo: {
+        summary: 'Ejemplo de actualización de tarea',
+        value: { titulo: 'Comprar pan', completada: true },
+      },
+    },
+  })
   @ApiResponse({
     status: 200,
     description: 'Tarea actualizada exitosamente',
-    type: Task,
+    schema: {
+      example: {
+        id: 1,
+        titulo: 'Comprar pan',
+        completada: true,
+        user: {
+          id: 1,
+          name: 'Juan Pérez',
+          email: 'juan@ejemplo.com',
+        },
+      },
+    },
   })
   @ApiResponse({
     status: 401,
@@ -97,6 +183,9 @@ export class TasksController {
   @ApiResponse({
     status: 200,
     description: 'Tarea eliminada exitosamente',
+    schema: {
+      example: { mensaje: 'Tarea eliminada correctamente' },
+    },
   })
   @ApiResponse({
     status: 401,

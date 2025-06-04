@@ -1,9 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Habilitar transformación global para que @Exclude funcione
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: false,
+    }),
+  );
 
   // Swagger configuration
   const config = new DocumentBuilder()
@@ -33,6 +43,8 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 
   console.log(`Server is running on port ${process.env.PORT ?? 3000}`);
-  console.log(`Swagger documentation is available at http://localhost:${process.env.PORT ?? 3000}/api`);
+  console.log(
+    `Swagger documentation is available at http://localhost:${process.env.PORT ?? 3000}/api`,
+  );
 }
 bootstrap();
