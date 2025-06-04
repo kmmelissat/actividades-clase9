@@ -1,98 +1,220 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🗃️ Actividades Clase 9 - NestJS API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+**Sistema completo de ejercicios de Base de Datos y API con validaciones avanzadas**
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Una API REST robusta construida con NestJS que implementa múltiples ejercicios de bases de datos relacionales, autenticación JWT, validaciones complejas, relaciones entre entidades y documentación interactiva con Swagger.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 👥 **Desarrollado por:**
 
-## Project setup
+- **Diego Leonel Cabezas Pineda**
+- **Julio César Contreras Cañas**
+- **Rene Alejandro Morataya Platero**
+- **Christian Alejandro Sánchez Herrera**
+- **Karla Melissa Torres Solórzano**
+
+---
+
+## 📋 Tabla de Contenidos
+
+- [📖 Ejercicios Implementados](#-ejercicios-implementados)
+- [⚡ Instalación y Configuración](#-instalación-y-configuración)
+- [🗄️ Configuración de Base de Datos](#️-configuración-de-base-de-datos)
+- [🔐 Autenticación JWT](#-autenticación-jwt)
+- [📚 Documentación API](#-documentación-api)
+- [🧪 Testing](#-testing)
+- [📁 Estructura del Proyecto](#-estructura-del-proyecto)
+- [🔗 Endpoints](#-endpoints)
+
+---
+
+## 📖 Ejercicios Implementados
+
+### 👤 **Usuarios y Autenticación**
+
+- Registro e inicio de sesión con validación de email único y contraseña segura.
+- JWT para proteger rutas privadas.
+- Endpoints para actualizar y eliminar usuarios.
+
+### ✅ **Tareas**
+
+- CRUD completo de tareas asociadas a usuarios autenticados.
+- Validaciones de campos y protección por JWT.
+
+### 🛒 **Productos**
+
+- CRUD de productos.
+- Endpoints públicos y privados (creación protegida por JWT).
+- Validaciones de nombre, descripción y precio.
+
+### ⚙️ **Configuración de Usuario**
+
+- Endpoint protegido para obtener configuración personalizada del usuario autenticado.
+
+---
+
+## ⚡ Instalación y Configuración
+
+### 📋 Prerrequisitos
+
+- Node.js 18+
+- npm o yarn
+- PostgreSQL 15+
+
+### 🔧 Pasos de Instalación
 
 ```bash
-$ npm install
+# 1. Clonar el repositorio
+git clone <repository-url>
+cd actividades-clase9
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar base de datos y variables de entorno (ver sección siguiente)
+
+# 4. Ejecutar en desarrollo
+npm run start:dev
+
+# 5. Acceder a la API
+# http://localhost:3000
+# Swagger: http://localhost:3000/api
 ```
 
-## Compile and run the project
+---
+
+## 🗄️ Configuración de Base de Datos
+
+### 1. **Crear Base de Datos PostgreSQL**
+
+```sql
+CREATE DATABASE actividades_clase9;
+```
+
+### 2. **Configurar Conexión**
+
+Crea un archivo `.env` en la raíz del proyecto:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=tu_password
+DB_DATABASE=actividades_clase9
+JWT_SECRET=tu_clave_secreta
+PORT=3000
+```
+
+---
+
+## 🔐 Autenticación JWT
+
+- Regístrate o inicia sesión para obtener un token JWT.
+- Usa el token en el header de tus requests protegidos:
+  ```
+  Authorization: Bearer <token>
+  ```
+
+---
+
+## 📚 Documentación API
+
+### 🌐 **Swagger UI**
+
+- **URL:** http://localhost:3000/api
+- Documentación interactiva con ejemplos de request/response, códigos de error y organización por ejercicios.
+
+---
+
+## 🧪 Testing
+
+### 🔥 **Ejemplos de Requests**
+
+#### **Registro de usuario**
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+curl -X POST http://localhost:3000/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Melissa","email":"melissa@ejemplo.com","password":"123456"}'
 ```
 
-## Run tests
+#### **Login**
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"melissa@ejemplo.com","password":"123456"}'
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+#### **Crear tarea**
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+curl -X POST http://localhost:3000/tasks \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Estudiar para el examen"}'
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### **Crear producto**
 
-## Resources
+```bash
+curl -X POST http://localhost:3000/products \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Teclado","description":"Teclado mecánico retroiluminado","price":89.99}'
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 📁 Estructura del Proyecto
 
-## Support
+```
+src/
+├── auth/         # Autenticación y usuarios
+├── products/     # Productos
+├── tasks/        # Tareas
+├── settings/     # Configuración de usuario
+├── main.ts       # Punto de entrada y configuración global
+└── app.module.ts # Módulo principal
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## 🔗 Endpoints
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 👤 **Usuarios y Autenticación**
 
-## License
+| Método | Endpoint       | Descripción              |
+| ------ | -------------- | ------------------------ |
+| POST   | /auth/register | Registrar usuario        |
+| POST   | /auth/login    | Iniciar sesión           |
+| GET    | /users         | Listar usuarios (JWT)    |
+| PUT    | /users/:id     | Actualizar usuario (JWT) |
+| DELETE | /users/:id     | Eliminar usuario (JWT)   |
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### ✅ **Tareas**
+
+| Método | Endpoint   | Descripción            |
+| ------ | ---------- | ---------------------- |
+| GET    | /tasks     | Listar tareas (JWT)    |
+| POST   | /tasks     | Crear tarea (JWT)      |
+| PUT    | /tasks/:id | Actualizar tarea (JWT) |
+| DELETE | /tasks/:id | Eliminar tarea (JWT)   |
+
+### 🛒 **Productos**
+
+| Método | Endpoint      | Descripción                       |
+| ------ | ------------- | --------------------------------- |
+| GET    | /products     | Listar productos (público)        |
+| POST   | /products     | Crear producto (JWT)              |
+| GET    | /products/:id | Obtener producto por ID (público) |
+
+### ⚙️ **Configuración**
+
+| Método | Endpoint  | Descripción                       |
+| ------ | --------- | --------------------------------- |
+| GET    | /settings | Configuración personalizada (JWT) |
+
+---
+
