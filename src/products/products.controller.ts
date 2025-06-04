@@ -25,6 +25,17 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @Get()
+  @ApiOperation({ summary: 'Obtener todos los productos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Retorna todos los productos',
+    type: [Product],
+  })
+  async findAll(): Promise<Product[]> {
+    return this.productsService.findAll();
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -42,18 +53,7 @@ export class ProductsController {
     @Body() product: Product,
     @Request() req: any,
   ): Promise<Product> {
-    return this.productsService.create(product, req.user.sub);
-  }
-
-  @Get()
-  @ApiOperation({ summary: 'Obtener todos los productos' })
-  @ApiResponse({
-    status: 200,
-    description: 'Retorna todos los productos',
-    type: [Product],
-  })
-  async findAll(): Promise<Product[]> {
-    return this.productsService.findAll();
+    return this.productsService.create(product);
   }
 
   @Get(':id')

@@ -38,7 +38,7 @@ export class SettingsController {
   })
   getSettings(@Req() req) {
     return {
-      mensaje: `Bienvenido a tu configuración, ${req.user.email}`,
+      mensaje: `Bienvenido a tu configuración, ${req.user.name}`,
       email: req.user.email,
     };
   }

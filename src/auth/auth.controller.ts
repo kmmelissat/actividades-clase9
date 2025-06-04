@@ -10,7 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
 @ApiTags('Ejercicio 4 - Autenticación')
 @Controller('auth')
@@ -51,6 +51,18 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Iniciar sesión' })
+  @ApiBody({
+    type: LoginDto,
+    examples: {
+      ejemplo: {
+        summary: 'Ejemplo de inicio de sesión',
+        value: {
+          email: 'usuario@ejemplo.com',
+          password: '123456',
+        },
+      },
+    },
+  })
   @ApiResponse({
     status: 200,
     description: 'Inicio de sesión exitoso',
