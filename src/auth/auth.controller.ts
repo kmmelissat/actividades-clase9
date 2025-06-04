@@ -89,23 +89,6 @@ export class AuthController {
     description: 'No autorizado - Credenciales inválidas',
   })
   async login(@Body() loginDto: LoginDto) {
-    // First validate credentials
-    const user = await this.authService.validateUser(
-      loginDto.email,
-      loginDto.password,
-    );
-    if (!user) {
-      throw new UnauthorizedException('Credenciales incorrectas');
-    }
-
-    // Perform login (generate token, etc.)
-    const loginResult = await this.authService.login(user);
-
-    // Return token plus a custom welcome message
-    return {
-      ...loginResult,
-      mensaje: `Bienvenido a tu configuración, ${user.email}`,
-      email: user.email,
-    };
+    return this.authService.login(loginDto);
   }
 }
