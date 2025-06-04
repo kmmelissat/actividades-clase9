@@ -17,15 +17,12 @@ export class ProductsService {
   }
 
   async findAll(): Promise<Product[]> {
-    return this.productsRepository.find({
-      relations: ['comments'],
-    });
+    return this.productsRepository.find();
   }
 
   async findOne(id: number): Promise<Product> {
     const product = await this.productsRepository.findOne({
       where: { id },
-      relations: ['comments'],
     });
 
     if (!product) {

@@ -15,6 +15,7 @@ import {
   ApiResponse,
   ApiBearerAuth,
   ApiParam,
+  ApiBody,
 } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-products.dto';
 import { Product } from './entities/products.entity';
@@ -30,7 +31,22 @@ export class ProductsController {
   @ApiResponse({
     status: 200,
     description: 'Retorna todos los productos',
-    type: [Product],
+    schema: {
+      example: [
+        {
+          id: 1,
+          name: 'Laptop',
+          description: 'Portátil de alto rendimiento',
+          price: 1200.5,
+        },
+        {
+          id: 2,
+          name: 'Mouse',
+          description: 'Mouse inalámbrico',
+          price: 25.99,
+        },
+      ],
+    },
   })
   async findAll(): Promise<Product[]> {
     return this.productsService.findAll();
@@ -40,17 +56,47 @@ export class ProductsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear un nuevo producto' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Teclado' },
+        description: {
+          type: 'string',
+          example: 'Teclado mecánico retroiluminado',
+        },
+        price: { type: 'number', example: 89.99 },
+      },
+    },
+    examples: {
+      ejemplo: {
+        summary: 'Ejemplo de creación de producto',
+        value: {
+          name: 'Teclado',
+          description: 'Teclado mecánico retroiluminado',
+          price: 89.99,
+        },
+      },
+    },
+  })
   @ApiResponse({
     status: 201,
     description: 'Producto creado exitosamente',
-    type: Product,
+    schema: {
+      example: {
+        id: 3,
+        name: 'Teclado',
+        description: 'Teclado mecánico retroiluminado',
+        price: 89.99,
+      },
+    },
   })
   @ApiResponse({
     status: 401,
     description: 'No autorizado - Token JWT inválido o faltante',
   })
   async create(
-    @Body() product: Product,
+    @Body() product: CreateProductDto,
     @Request() req: any,
   ): Promise<Product> {
     return this.productsService.create(product);
@@ -62,7 +108,14 @@ export class ProductsController {
   @ApiResponse({
     status: 200,
     description: 'Retorna el producto',
-    type: Product,
+    schema: {
+      example: {
+        id: 1,
+        name: 'Laptop',
+        description: 'Portátil de alto rendimiento',
+        price: 1200.5,
+      },
+    },
   })
   @ApiResponse({ status: 404, description: 'Producto no encontrado' })
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
